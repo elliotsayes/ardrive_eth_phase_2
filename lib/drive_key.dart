@@ -24,7 +24,8 @@ class DriveKeyPage extends StatefulWidget {
 }
 
 class _DriveKeyPageState extends State<DriveKeyPage> {
-  late String driveId;
+  String driveId = Uuid().v4();
+  String drivePassword = 'defaultPassword';
   String driveKey = '...';
 
   void newDriveId() {
@@ -33,15 +34,9 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    newDriveId();
-  }
-
   void runDeriveDriveKey() async {
     // Try to initiate connection
-    final driveKeySecret = await deriveDriveKey(widget.signer, driveId, 'password');
+    final driveKeySecret = await deriveDriveKey(widget.signer, driveId, drivePassword);
     final driveKeyData = await driveKeySecret.extractBytes();
     setState(() {
       driveKey = hex.encode(driveKeyData);
@@ -101,16 +96,24 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(
+            Padding(
+              padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 20,
               ),
-              child: TextField(
-                decoration: InputDecoration(
+              child: TextFormField(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
+                // obscureText: true,
+                initialValue: drivePassword,
+                onChanged: (newDrivePassword) {
+                  setState(() {
+                    print('newDrivePassword: $newDrivePassword');
+                    drivePassword = newDrivePassword;
+                  });
+                },
               ),
             ),
             Text(
