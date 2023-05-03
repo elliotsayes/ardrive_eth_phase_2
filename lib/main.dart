@@ -94,13 +94,13 @@ class _MyHomePageState extends State<MyHomePage> {
           text = "Connected: ${session.accounts[0]}";
         });
 
-        await Future.delayed(const Duration(seconds: 5));
+        // await Future.delayed(const Duration(seconds: 5));
 
         final signer = EthWalletConnectSigner(connector, session.accounts[0]);
-        final testSig = await signer.sign(Uint8List.fromList([0x00, 0xff]));
-        print('testSig: $testSig');
+        // final testSig = await signer.sign(Uint8List.fromList([0x00, 0xff]), 'lol');
+        // print('testSig: $testSig');
 
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 1));
 
         nav.pushReplacement(
           MaterialPageRoute(

@@ -22,6 +22,7 @@ Future<SecretKey> deriveDriveKey(
   final message =
       Uint8List.fromList(utf8.encode('drive') + Uuid.parse(driveId));
   final walletSignature = await wallet.sign(message);
+  print('walletSignature: $walletSignature');
   return hkdf.deriveKey(
     secretKey: SecretKey(walletSignature),
     info: utf8.encode(password),
