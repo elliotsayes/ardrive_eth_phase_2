@@ -13,7 +13,10 @@ const keyByteLength = 256 ~/ 8;
 final hkdf = Hkdf(hmac: Hmac(sha256), outputLength: keyByteLength);
 
 // ardrive-web/lib/services/crypto/keys.dart
-// Changes: "Wallet" class substituted with "Signer" class
+// Protocol changes:
+// - `message` format changed to be human readable
+// Implementation changes:
+// - `Wallet` class substituted with `Signer` class
 Future<SecretKey> deriveDriveKey(
   Signer wallet,
   String driveId,
