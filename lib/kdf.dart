@@ -20,7 +20,7 @@ Future<SecretKey> deriveDriveKey(
   String password,
 ) async {
   final message =
-      Uint8List.fromList(utf8.encode('drive') + Uuid.parse(driveId));
+      Uint8List.fromList(utf8.encode('ArDrive Drive-Id: $driveId'));
   final walletSignature = await wallet.sign(message);
   print('walletSignature: $walletSignature');
   return hkdf.deriveKey(
