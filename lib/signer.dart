@@ -1,20 +1,18 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:ardrive_eth_phase_2/kdf.dart';
+import 'package:arweave/arweave.dart';
 import 'package:convert/convert.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 
-abstract class Signer {
-  FutureOr<Uint8List> sign(Uint8List data, [String password]);
-}
-
-class EthWalletConnectSigner implements Signer {
+class EthWalletConnectWallet extends Wallet {
   final WalletConnect connector;
   final String address;
 
-  EthWalletConnectSigner(this.connector, this.address);
+  EthWalletConnectWallet(this.connector, this.address);
+
+  @override
+  ChainCode get chainCode => ChainCode.Ethereum;
 
   @override
   Future<Uint8List> sign(Uint8List data, [String? password]) async {
@@ -29,13 +27,39 @@ class EthWalletConnectSigner implements Signer {
     print('signature: $signature');
     return Uint8List.fromList(hex.decode(signature.substring(2)));
   }
+
+  @override
+  Future<String> getAddress() {
+    return Future.value(address);
+  }
+
+  @override
+  Future<String> getOwner() {
+    // Ethereum-signed txs appear to use the address as owner? 
+    // Source: https://github.com/Bundlr-Network/js-sdk/blob/main/src/web/currencies/ethereum.ts#L105
+    return Future.value(address);
+  }
 }
 
-class EthWeb3JsSigner implements Signer {
+class EthWeb3JsWallet extends Wallet {
   @override
-  FutureOr<Uint8List> sign(Uint8List data, [String? password]) {
+  ChainCode get chainCode => ChainCode.Ethereum;
+
+  @override
+  Future<Uint8List> sign(Uint8List data, [String? password]) {
     // TODO: implement sign
     throw UnimplementedError();
   }
 
+  @override
+  Future<String> getAddress() {
+    // TODO: implement getAddress
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> getOwner() {
+    // TODO: implement getOwner
+    throw UnimplementedError();
+  }
 }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:ardrive_eth_phase_2/signer.dart';
+import 'package:arweave/arweave.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:uuid/uuid.dart';
 
@@ -14,16 +14,15 @@ final hkdf = Hkdf(hmac: Hmac(sha256), outputLength: keyByteLength);
 
 // ardrive-web/lib/services/crypto/keys.dart
 // Protocol changes:
-// - `message` format changed to be human readable
-// Implementation changes:
-// - `Wallet` class substituted with `Signer` class
+// - `message` format changed to be human readable for non-Arweave wallets
 Future<SecretKey> deriveDriveKey(
-  Signer wallet,
+  Wallet wallet,
   String driveId,
   String password,
 ) async {
-  final message =
-      Uint8List.fromList(utf8.encode('ArDrive Drive-Id: $driveId'));
+  final message = wallet.chainCode == ChainCode.Arweave
+    ? Uint8List.fromList(utf8.encode('drive') + Uuid.parse(driveId))
+    : Uint8List.fromList(utf8.encode('ArDrive Drive-Id: $driveId'));
   final walletSignature = await wallet.sign(message);
   return hkdf.deriveKey(
     secretKey: SecretKey(walletSignature),

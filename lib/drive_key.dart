@@ -1,4 +1,4 @@
-import 'package:ardrive_eth_phase_2/signer.dart';
+import 'package:arweave/arweave.dart';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 import 'kdf.dart';
 
 class DriveKeyPage extends StatefulWidget {
-  const DriveKeyPage({super.key, required this.signer});
+  const DriveKeyPage({super.key, required this.wallet});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -17,7 +17,7 @@ class DriveKeyPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final Signer signer;
+  final Wallet wallet;
 
   @override
   State<DriveKeyPage> createState() => _DriveKeyPageState();
@@ -36,7 +36,7 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
 
   void runDeriveDriveKey() async {
     // Try to initiate connection
-    final driveKeySecret = await deriveDriveKey(widget.signer, driveId, drivePassword);
+    final driveKeySecret = await deriveDriveKey(widget.wallet, driveId, drivePassword);
     final driveKeyData = await driveKeySecret.extractBytes();
     setState(() {
       driveKey = hex.encode(driveKeyData);

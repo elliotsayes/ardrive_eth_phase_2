@@ -40,6 +40,10 @@ dependencies:
   cryptography: ^2.5.0
   uuid: ^3.0.7
   convert: ^3.1.1
+  arweave:
+    git:
+      url: https://github.com/elliotsayes/arweave-dart
+      ref: 5cb16ed45f8142da6f36077b7824bb8f69565060
 
 dev_dependencies:
   flutter_test:

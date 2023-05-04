@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         // await Future.delayed(const Duration(seconds: 5));
 
-        final signer = EthWalletConnectSigner(connector, session.accounts[0]);
+        final wallet = EthWalletConnectWallet(connector, session.accounts[0]);
         // final testSig = await signer.sign(Uint8List.fromList([0x00, 0xff]), 'lol');
         // print('testSig: $testSig');
 
@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         nav.pushReplacement(
           MaterialPageRoute(
             builder: (context) => DriveKeyPage(
-              signer: signer,
+              wallet: wallet,
             ),
           ),
         );
