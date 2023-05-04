@@ -24,9 +24,19 @@ class DriveKeyPage extends StatefulWidget {
 }
 
 class _DriveKeyPageState extends State<DriveKeyPage> {
+  String walletAddress = 'Loading...';
   String driveId = Uuid().v4();
-  String drivePassword = 'defaultPassword';
+  String drivePassword = 'testpassword';
   String driveKey = '...';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.wallet.getAddress().then((value) => setState(() {
+      walletAddress = value;
+    }));
+  }
 
   void newDriveId() {
     setState(() {
@@ -36,7 +46,8 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
 
   void runDeriveDriveKey() async {
     // Try to initiate connection
-    final driveKeySecret = await deriveDriveKey(widget.wallet, driveId, drivePassword);
+    final driveKeySecret =
+        await deriveDriveKey(widget.wallet, driveId, drivePassword);
     final driveKeyData = await driveKeySecret.extractBytes();
     setState(() {
       driveKey = hex.encode(driveKeyData);
@@ -77,6 +88,21 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Column(
+                children: [
+                  Text(
+                    'Eth key:',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  Text(
+                    walletAddress,
+                    style: Theme.of(context).textTheme.labelLarge,
+                  )
+                ],
+              ),
+            ),
             Text(
               'Drive ID:',
               style: Theme.of(context).textTheme.headlineSmall,

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:arweave/arweave.dart';
 import 'package:convert/convert.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:webthree/credentials.dart' hide Wallet;
 
 class EthWalletConnectWallet extends Wallet {
   final WalletConnect connector;
@@ -41,25 +42,29 @@ class EthWalletConnectWallet extends Wallet {
   }
 }
 
-class EthWeb3JsWallet extends Wallet {
+class EthJsWallet extends Wallet {
+  final CredentialsWithKnownAddress credentials;
+  final String address;
+
+  EthJsWallet(this.credentials, this.address);
+
   @override
   ChainCode get chainCode => ChainCode.Ethereum;
 
   @override
-  Future<Uint8List> sign(Uint8List data, [String? password]) {
-    // TODO: implement sign
-    throw UnimplementedError();
+  Future<Uint8List> sign(Uint8List data, [String? password]) async {
+    final signature = await credentials.signPersonalMessage(data);
+    print('signature: $signature');
+    return Future.value(signature);
   }
 
   @override
   Future<String> getAddress() {
-    // TODO: implement getAddress
-    throw UnimplementedError();
+    return Future.value(address);
   }
 
   @override
   Future<String> getOwner() {
-    // TODO: implement getOwner
-    throw UnimplementedError();
+    return Future.value(address);
   }
 }
