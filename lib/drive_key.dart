@@ -25,7 +25,7 @@ class DriveKeyPage extends StatefulWidget {
 
 class _DriveKeyPageState extends State<DriveKeyPage> {
   String walletAddress = 'Loading...';
-  String driveId = Uuid().v4();
+  String driveId = '00000000-0000-0000-0000-000000000000';
   String drivePassword = 'testpassword';
   String driveKey = '...';
 
