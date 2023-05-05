@@ -3,7 +3,7 @@ import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import 'kdf.dart';
+import '../kdf.dart';
 
 class DriveKeyPage extends StatefulWidget {
   const DriveKeyPage({super.key, required this.wallet});

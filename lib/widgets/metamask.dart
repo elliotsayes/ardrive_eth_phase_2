@@ -14,7 +14,7 @@ import 'package:webthree/browser.dart'
     if (dart.library.js) 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
 
-import 'drive_key.dart';
+import '../pages/drive_key.dart';
 
 @JS()
 @anonymous

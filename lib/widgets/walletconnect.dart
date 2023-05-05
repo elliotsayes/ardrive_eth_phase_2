@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_qrcode_modal_dart/walletconnect_qrcode_modal_dart.dart';
 
-import 'drive_key.dart';
+import '../pages/drive_key.dart';
 
 class WalletConnectButton extends StatefulWidget {
   const WalletConnectButton({super.key});

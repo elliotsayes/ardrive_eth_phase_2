@@ -15,6 +15,7 @@ final hkdf = Hkdf(hmac: Hmac(sha256), outputLength: keyByteLength);
 // ardrive-web/lib/services/crypto/keys.dart
 // Protocol changes:
 // - `message` format changed to be human readable for non-Arweave wallets
+//   (Arweave wallets unchanged)
 Future<SecretKey> deriveDriveKey(
   Wallet wallet,
   String driveId,
