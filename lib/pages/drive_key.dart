@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:arweave/arweave.dart';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,11 @@ import 'package:uuid/uuid.dart';
 import '../kdf.dart';
 
 class DriveKeyPage extends StatefulWidget {
-  const DriveKeyPage({super.key, required this.wallet});
+  const DriveKeyPage({
+    super.key,
+    required this.wallet,
+    this.onBack,
+  });
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -18,6 +24,7 @@ class DriveKeyPage extends StatefulWidget {
   // always marked "final".
 
   final Wallet wallet;
+  final FutureOr<void> Function()? onBack;
 
   @override
   State<DriveKeyPage> createState() => _DriveKeyPageState();
@@ -31,11 +38,20 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.wallet.getAddress().then((value) => setState(() {
       walletAddress = value;
     }));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<bool> backInterceptor() async {
+    await widget.onBack?.call();
+    return true;
   }
 
   void newDriveId() {
@@ -45,7 +61,6 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
   }
 
   void runDeriveDriveKey() async {
-    // Try to initiate connection
     final driveKeySecret =
         await deriveDriveKey(widget.wallet, driveId, drivePassword);
     final driveKeyData = await driveKeySecret.extractBytes();
@@ -56,108 +71,87 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: const Text('Drive Key'),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Column(
+    return WillPopScope(
+      onWillPop: backInterceptor,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Drive Key'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Column(
+                  children: [
+                    Text(
+                      'Eth key:',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Text(
+                      walletAddress,
+                      style: Theme.of(context).textTheme.labelLarge,
+                    )
+                  ],
+                ),
+              ),
+              Text(
+                'Drive ID:',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Eth key:',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  Text(
-                    walletAddress,
+                    driveId,
                     style: Theme.of(context).textTheme.labelLarge,
-                  )
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    tooltip: 'Refresh',
+                    onPressed: newDriveId,
+                  ),
                 ],
               ),
-            ),
-            Text(
-              'Drive ID:',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  driveId,
-                  style: Theme.of(context).textTheme.labelLarge,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
                 ),
-                IconButton(
-                  icon: const Icon(Icons.refresh),
-                  tooltip: 'Refresh',
-                  onPressed: newDriveId,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
+                  // obscureText: true,
+                  initialValue: drivePassword,
+                  onChanged: (newDrivePassword) {
+                    setState(() {
+                      // print('newDrivePassword: $newDrivePassword');
+                      drivePassword = newDrivePassword;
+                    });
+                  },
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 20,
               ),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-                // obscureText: true,
-                initialValue: drivePassword,
-                onChanged: (newDrivePassword) {
-                  setState(() {
-                    print('newDrivePassword: $newDrivePassword');
-                    drivePassword = newDrivePassword;
-                  });
-                },
+              Text(
+                'Drive Key:',
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
-            ),
-            Text(
-              'Drive Key:',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            Text(
-              driveKey,
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-          ],
+              Text(
+                driveKey,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: runDeriveDriveKey,
+          tooltip: 'Increment',
+          child: const Icon(Icons.calculate),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: runDeriveDriveKey,
-        tooltip: 'Increment',
-        child: const Icon(Icons.calculate),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

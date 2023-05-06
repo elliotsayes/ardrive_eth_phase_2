@@ -52,19 +52,26 @@ class _WalletConnectButtonState extends State<WalletConnectButton> {
         setState(() {
           text = "Connected: ${session.accounts[0]}";
         });
-
-        // await Future.delayed(const Duration(seconds: 5));
-
-        final wallet = EthWalletConnectWallet(connector, session.accounts[0]);
-        // final testSig = await signer.sign(Uint8List.fromList([0x00, 0xff]), 'lol');
-        // print('testSig: $testSig');
-
+        
         await Future.delayed(const Duration(seconds: 1));
 
-        nav.pushReplacement(
+        final wallet = EthWalletConnectWallet(connector, session.accounts[0]);
+
+        void cleanup() async {
+          print('WalletConnect cleanup');
+          await connector.killSession();
+          connector.reconnect();
+          setState(() {
+            text = 'Session Closed';
+            buttonEnabled = true;
+          });
+        }
+
+        nav.push(
           MaterialPageRoute(
             builder: (context) => DriveKeyPage(
               wallet: wallet,
+              onBack: cleanup,
             ),
           ),
         );

@@ -1,17 +1,11 @@
-import 'dart:convert';
 import 'dart:html';
-import 'dart:typed_data';
 
 // conditionally import dependencies in order to support web and other platform builds from a single codebase
 
 import 'package:ardrive_eth_phase_2/wallet.dart';
 import 'package:flutter/material.dart';
-import 'package:js/js.dart'
-    if (dart.library.io) 'package:webthree/lib/src/browser/js-stub.dart'
-    if (dart.library.js) 'package:js/js.dart';
-import 'package:webthree/browser.dart'
-    if (dart.library.io) 'package:webthree/lib/src/browser/dart_wrappers_stub.dart'
-    if (dart.library.js) 'package:webthree/browser.dart';
+import 'package:js/js.dart';
+import 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
 
 import '../pages/drive_key.dart';
@@ -45,13 +39,19 @@ class _MetamaskButtonState extends State<MetamaskButton> {
 
     final maybeEth = window.ethereum;
     if (maybeEth == null) {
-      print('MetaMask is not available');
+      text = 'MetaMask is not available';
+      buttonEnabled = false;
       return;
     } else {
       eth = maybeEth;
+      eth.stream('disconnect').forEach((element) {
+        setState(() {
+          text = 'Disconnected';
+          buttonEnabled = true;
+        });
+      });
+      client = Web3Client.custom(eth.asRpcService());
     }
-
-    client = Web3Client.custom(eth.asRpcService());
   }
 
   void metamaskConnect() async {
@@ -61,24 +61,36 @@ class _MetamaskButtonState extends State<MetamaskButton> {
     });
     final nav = Navigator.of(context);
     final credentials = await eth.requestAccount();
-    final address = credentials.address;
+    if (!eth.isConnected()) {
+      setState(() {
+        text = "Error, not connected";
+      });
+      return;
+    }
 
+    final address = credentials.address;
     setState(() {
       text = "Connected: ${address.hex}";
     });
 
-    // await Future.delayed(const Duration(seconds: 5));
-
-    final wallet = EthJsWallet(credentials, address.hex);
-    // final testSig = await signer.sign(Uint8List.fromList([0x00, 0xff]), 'lol');
-    // print('testSig: $testSig');
-
     await Future.delayed(const Duration(seconds: 1));
 
-    nav.pushReplacement(
+    final wallet = EthJsWallet(credentials, address.hex);
+
+    void cleanup() {
+      print('Metamask cleanup');
+      // TODO: Disconnect from Metamask
+      setState(() {
+        text = 'Ready';
+        buttonEnabled = true;
+      });
+    }
+
+    nav.push(
       MaterialPageRoute(
         builder: (context) => DriveKeyPage(
           wallet: wallet,
+          onBack: cleanup,
         ),
       ),
     );
