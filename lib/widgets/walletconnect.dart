@@ -49,13 +49,14 @@ class _WalletConnectButtonState extends State<WalletConnectButton> {
           return;
         }
 
+        final account = session.accounts[0];
         setState(() {
-          text = "Connected: ${session.accounts[0]}";
+          text = "Connected: $account";
         });
-        
+
         await Future.delayed(const Duration(seconds: 1));
 
-        final wallet = EthWalletConnectWallet(connector, session.accounts[0]);
+        final wallet = EthWalletConnectWallet(connector, account);
 
         void cleanup() async {
           print('WalletConnect cleanup');
