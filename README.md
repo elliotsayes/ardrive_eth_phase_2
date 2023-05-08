@@ -2,7 +2,7 @@
 
 A Proof of Concept in Flutter for deriving ArFS drive keys from Metamask Ethereum Wallets, on Android & Web
 
-## Using this demo
+## Running the demo
 
 ### Android
 
@@ -10,11 +10,11 @@ A Proof of Concept in Flutter for deriving ArFS drive keys from Metamask Ethereu
 1. Install Metamask app & generate or import a key
 
 #### Run
-1. Click the 'WalletConnect' button, then connect
-2. Your wallet application (e.g. Metamask) should open, click Connect & the flutter app should auto-proceed to the 'Drive Key' screen
-3. Click the 'Derive Drive Key' button
+1. Tap the 'WalletConnect' button, then tap connect
+2. Your wallet application (e.g. Metamask) should open, tap Connect & the flutter app should auto-proceed to the 'Drive Key' screen
+3. Tap the 'Derive Drive Key' button
 4. Switch back to your wallet application, and click sign on the message
-5. Observe  
+5. Observe the key
 
 ### Web
 
@@ -28,3 +28,16 @@ A Proof of Concept in Flutter for deriving ArFS drive keys from Metamask Ethereu
 #### Run
 1. If using WalletConnect, follow the same instructions for mobile, except instead of clicking Connect in the modal, scan the QR code from your mobile wallet application (top right button in Metamask mobile app)
 2. If using the Metamask button, follow the on screen instructions from the extension pop-up.
+
+## Important source files
+
+- [lib/crypto/wallet.dart](lib/crypto/wallet.dart)
+  - Code for generating Ethereum signatures for both WalletConnect 
+  & Metamask browser API. See notes on signing method & password field.
+- [lib/crypto/kdf.dart](lib/crypto/kdf.dart)
+  - Code for generating ArFS Drive Key. See notes on updated encoding
+  of signed message.
+- [lib/widgets/walletconnect.dart](lib/widgets/walletconnect.dart)
+  - Widget to manage WalletConnect connection process.
+- [lib/widgets/metamask.dart](lib/widgets/metamask.dart)
+  - Widget to manage Metamask browser extension connection process.

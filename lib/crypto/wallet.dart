@@ -15,6 +15,14 @@ class EthWalletConnectWallet extends Wallet {
   @override
   ChainCode get chainCode => ChainCode.Ethereum;
 
+  // Comparison of signing methods:
+  // - `sign`: deprecated
+  // - `signTypeData`: Used to efficiently verify on-chain (unnecessary)
+  // - `personalSign`: Simplest, supports hardware wallets
+  // see more: https://docs.metamask.io/wallet/how-to/sign-data/
+  //
+  // `password` is not needed, and does not affect the signature
+  // see more: https://ethereum.stackexchange.com/a/69879
   @override
   Future<Uint8List> sign(Uint8List data, [String? password]) async {
     final provider = EthereumWalletConnectProvider(connector);
@@ -36,7 +44,8 @@ class EthWalletConnectWallet extends Wallet {
 
   @override
   Future<String> getOwner() {
-    // Ethereum-signed txs appear to use the address as owner? 
+    // Ethereum-signed txs appear to use the address as owner?
+    // Will confirm in Phase 3
     // Source: https://github.com/Bundlr-Network/js-sdk/blob/main/src/web/currencies/ethereum.ts#L105
     return Future.value(address);
   }
