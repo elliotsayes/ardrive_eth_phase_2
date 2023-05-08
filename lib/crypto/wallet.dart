@@ -16,13 +16,13 @@ class EthWalletConnectWallet extends Wallet {
   ChainCode get chainCode => ChainCode.Ethereum;
 
   // Comparison of signing methods:
-  // ❌ `sign`: deprecated
+  // ❌ `sign`: Deprecated
   // ❌ `signTypedData`: Used to efficiently verify on-chain (unnecessary)
   // ✅ `personalSign`: Simplest, supports hardware wallets
-  // see more: https://docs.metamask.io/wallet/how-to/sign-data/
+  // See more: https://docs.metamask.io/wallet/how-to/sign-data/
   //
   // `password` is not needed, and does not affect the signature
-  // see more: https://ethereum.stackexchange.com/a/69879
+  // See more: https://ethereum.stackexchange.com/a/69879
   @override
   Future<Uint8List> sign(Uint8List message, [String? password]) async {
     final provider = EthereumWalletConnectProvider(connector);
