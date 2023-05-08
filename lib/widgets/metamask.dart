@@ -1,7 +1,5 @@
 import 'dart:html';
 
-// conditionally import dependencies in order to support web and other platform builds from a single codebase
-
 import 'package:ardrive_eth_phase_2/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:js/js.dart';
