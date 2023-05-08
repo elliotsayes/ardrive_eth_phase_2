@@ -17,7 +17,7 @@ class EthWalletConnectWallet extends Wallet {
 
   // Comparison of signing methods:
   // - `sign`: deprecated
-  // - `signTypeData`: Used to efficiently verify on-chain (unnecessary)
+  // - `signTypedData`: Used to efficiently verify on-chain (unnecessary)
   // - `personalSign`: Simplest, supports hardware wallets
   // see more: https://docs.metamask.io/wallet/how-to/sign-data/
   //
