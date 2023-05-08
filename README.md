@@ -7,7 +7,8 @@ A Proof of Concept in Flutter for deriving ArFS drive keys from Metamask Ethereu
 ### Android
 
 #### Setup
-1. Install Metamask app & generate or import a key
+1. Install Metamask app. If running on emulator, download an `.apk` from github (e.g. [6.4.0](https://github.com/MetaMask/metamask-mobile/releases/tag/v6.4.0) release), and drag & drop the file into the emulator window.
+2. Generate or import a new ethereum key
 
 #### Run
 1. Tap the 'WalletConnect' button, then tap connect
@@ -27,7 +28,7 @@ A Proof of Concept in Flutter for deriving ArFS drive keys from Metamask Ethereu
 
 #### Run
 1. If using WalletConnect, follow the same instructions for mobile, except instead of clicking Connect in the modal, scan the QR code from your mobile wallet application (top right button in Metamask mobile app)
-2. If using the Metamask button, follow the on screen instructions from the extension pop-up.
+2. If using the Metamask button, follow the on screen instructions from the extension when it pops up.
 
 ## Important source files
 
