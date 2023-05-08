@@ -24,12 +24,12 @@ class EthWalletConnectWallet extends Wallet {
   // `password` is not needed, and does not affect the signature
   // see more: https://ethereum.stackexchange.com/a/69879
   @override
-  Future<Uint8List> sign(Uint8List data, [String? password]) async {
+  Future<Uint8List> sign(Uint8List message, [String? password]) async {
     final provider = EthereumWalletConnectProvider(connector);
-    final message = '0x${hex.encode(data)}';
-    print('message: $message');
+    final messageHex = '0x${hex.encode(message)}';
+    print('message: $messageHex');
     final signature = await provider.personalSign(
-      message: message,
+      message: messageHex,
       address: address,
       password: password ?? '',
     );
@@ -60,9 +60,10 @@ class EthJsWallet extends Wallet {
   @override
   ChainCode get chainCode => ChainCode.Ethereum;
 
+  // Eth JS wallet does not support password field
   @override
-  Future<Uint8List> sign(Uint8List data, [String? password]) async {
-    final signature = await credentials.signPersonalMessage(data);
+  Future<Uint8List> sign(Uint8List message) async {
+    final signature = await credentials.signPersonalMessage(message);
     print('signature: $signature');
     return Future.value(signature);
   }
