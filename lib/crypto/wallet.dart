@@ -16,9 +16,9 @@ class EthWalletConnectWallet extends Wallet {
   ChainCode get chainCode => ChainCode.Ethereum;
 
   // Comparison of signing methods:
-  // - `sign`: deprecated
-  // - `signTypedData`: Used to efficiently verify on-chain (unnecessary)
-  // - `personalSign`: Simplest, supports hardware wallets
+  // ❌ `sign`: deprecated
+  // ❌ `signTypedData`: Used to efficiently verify on-chain (unnecessary)
+  // ✅ `personalSign`: Simplest, supports hardware wallets
   // see more: https://docs.metamask.io/wallet/how-to/sign-data/
   //
   // `password` is not needed, and does not affect the signature
