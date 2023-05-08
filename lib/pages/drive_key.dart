@@ -141,7 +141,14 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: MaterialButton(
-                  onPressed: runDeriveDriveKey,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please check your Wallet app & confirm sign.'),
+                      ),
+                    );
+                    runDeriveDriveKey();
+                  },
                   textTheme: ButtonTextTheme.primary,
                   color: Colors.blueAccent,
                   elevation: 5,
