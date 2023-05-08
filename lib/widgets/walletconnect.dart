@@ -1,4 +1,4 @@
-import 'package:ardrive_eth_phase_2/wallet.dart';
+import 'package:ardrive_eth_phase_2/crypto/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_qrcode_modal_dart/walletconnect_qrcode_modal_dart.dart';

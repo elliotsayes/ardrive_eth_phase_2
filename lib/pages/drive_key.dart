@@ -1,11 +1,10 @@
 import 'dart:async';
 
+import 'package:ardrive_eth_phase_2/crypto/kdf.dart';
 import 'package:arweave/arweave.dart';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-
-import '../kdf.dart';
 
 class DriveKeyPage extends StatefulWidget {
   const DriveKeyPage({
