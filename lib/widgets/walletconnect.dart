@@ -25,11 +25,11 @@ class _WalletConnectButtonState extends State<WalletConnectButton> {
     connector = WalletConnect(
       bridge: 'https://bridge.walletconnect.org',
       clientMeta: const PeerMeta( // <-- Meta data of your app appearing in the wallet when connecting
-        name: 'QRCodeModalExampleApp',
-        description: 'WalletConnect Developer App',
-        url: 'https://walletconnect.org',
+        name: 'ArFS x Ethereum',
+        description: 'Phase 2 Demo',
+        url: 'https://github.com/elliotsayes/ardrive_eth_phase_2',
         icons: [
-          'https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          'https://app.ardrive.io/icons/Icon-192.png'
         ],
       ),
     );
