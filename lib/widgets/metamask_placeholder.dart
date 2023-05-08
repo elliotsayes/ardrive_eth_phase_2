@@ -26,11 +26,15 @@ class _MetamaskButtonState extends State<MetamaskButton> {
         children: <Widget>[
           Text(
             'MetaMask',
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              color: Theme.of(context).disabledColor,
+            ),
           ),
           Text(
             text,
-            style: Theme.of(context).textTheme.labelLarge,
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+              color: Theme.of(context).disabledColor,
+            ),
           ),
         ],
       ),
