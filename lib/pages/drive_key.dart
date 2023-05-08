@@ -88,10 +88,12 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
                     Text(
                       '${widget.wallet.runtimeType} address:',
                       style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
                     ),
-                    Text(
+                    SelectableText(
                       walletAddress,
                       style: Theme.of(context).textTheme.labelLarge,
+                      textAlign: TextAlign.center,
                     )
                   ],
                 ),
@@ -99,14 +101,16 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
               Text(
                 'Drive ID:',
                 style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  SelectableText(
                     driveId,
                     style: Theme.of(context).textTheme.labelLarge,
+                    textAlign: TextAlign.center,
                   ),
                   IconButton(
                     icon: const Icon(Icons.refresh),
@@ -138,10 +142,12 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
               Text(
                 'Drive Key:',
                 style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
               ),
-              Text(
+              SelectableText(
                 driveKey,
                 style: Theme.of(context).textTheme.labelLarge,
+                textAlign: TextAlign.center,
               ),
             ],
           ),
