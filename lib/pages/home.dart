@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/metamask.dart';
+import '../widgets/metamask.dart'
+  if (dart.library.io) '../widgets/metamask_placeholder.dart'
+  if (dart.library.html) '../widgets/metamask.dart';
 import '../widgets/walletconnect.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -58,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             WalletConnectButton(),
-            kIsWeb ? MetamaskButton() : Container(),
+            MetamaskButton(),
           ],
         ),
       ),

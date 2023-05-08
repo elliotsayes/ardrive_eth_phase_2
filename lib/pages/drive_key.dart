@@ -86,7 +86,7 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
                 child: Column(
                   children: [
                     Text(
-                      'Eth key:',
+                      '${widget.wallet.runtimeType} address:',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     Text(
