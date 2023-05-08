@@ -139,6 +139,16 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
                   },
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: MaterialButton(
+                  onPressed: runDeriveDriveKey,
+                  textTheme: ButtonTextTheme.primary,
+                  color: Colors.blueAccent,
+                  elevation: 5,
+                  child: const Text('Derive Drive Key'),
+                ),
+              ),
               Text(
                 'Drive Key:',
                 style: Theme.of(context).textTheme.headlineSmall,
@@ -151,11 +161,6 @@ class _DriveKeyPageState extends State<DriveKeyPage> {
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: runDeriveDriveKey,
-          tooltip: 'Increment',
-          child: const Icon(Icons.calculate),
         ),
       ),
     );
