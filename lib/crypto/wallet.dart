@@ -27,14 +27,14 @@ class EthWalletConnectWallet extends Wallet {
   Future<Uint8List> sign(Uint8List message, [String? password]) async {
     final provider = EthereumWalletConnectProvider(connector);
     final messageHex = '0x${hex.encode(message)}';
-    print('message: $messageHex');
-    final signature = await provider.personalSign(
+    print('messageHex: $messageHex');
+    final signatureHex = await provider.personalSign(
       message: messageHex,
       address: address,
       password: password ?? '',
     );
-    print('signature: $signature');
-    return Uint8List.fromList(hex.decode(signature.substring(2)));
+    print('signatureHex: $signatureHex');
+    return Uint8List.fromList(hex.decode(signatureHex.substring(2)));
   }
 
   @override
